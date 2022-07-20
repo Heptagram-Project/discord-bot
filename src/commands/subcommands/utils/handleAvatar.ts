@@ -27,7 +27,7 @@ export const handleAvatar: CommandHandler = async (
       iconURL: `${Heptagram.user?.avatarURL()}`,
     });
 
-    await interaction.editReply({ embeds: [avatarEmbed] });
+    await interaction.reply({ embeds: [avatarEmbed] });
   } catch (err) {
     const errorId = await heptagramErrorHandler(
       Heptagram,
@@ -37,7 +37,7 @@ export const handleAvatar: CommandHandler = async (
       undefined,
       interaction
     );
-    await interaction.editReply({
+    await interaction.reply({
       embeds: [errorEmbedGenerator(Heptagram, "avatar", errorId)],
     });
   }

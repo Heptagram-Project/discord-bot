@@ -1,4 +1,4 @@
-import { Guild, MessageEmbed } from "discord.js";
+import { Guild, EmbedBuilder } from "discord.js";
 
 import { Heptagram } from "../../interfaces/Heptagram";
 
@@ -13,22 +13,33 @@ export const guildCreate = async (
   guild: Guild
 ): Promise<void> => {
   const owner = await guild.members.fetch(guild.ownerId);
-  const guildCreateEmbed = new MessageEmbed();
+  const guildCreateEmbed = new EmbedBuilder();
   guildCreateEmbed.setTitle(
     `${Heptagram.user?.username || "Heptagram"} has joined a new guild`
   );
-  guildCreateEmbed.addField("Guild Name", guild.name, true);
-  guildCreateEmbed.addField(
-    "Guild Owner",
-    owner.user.username || "No owner data available.",
-    true
+  guildCreateEmbed.addFields(
+    {
+      name: "Guild Name",
+      value: guild.name,
+      inline: true,
+    },
+    {
+      name: "Guild Owner",
+      value: owner?.user.username || "No owner data available.",
+      inline: true,
+    },
+    {
+      name: "Guild ID",
+      value: guild.id,
+      inline: true,
+    },
+    {
+      name: "Guild Owner ID",
+      value: guild.ownerId || "No owner data available",
+      inline: true,
+    }
   );
-  guildCreateEmbed.addField("Guild ID", guild.id, true);
-  guildCreateEmbed.addField(
-    "Guild Owner ID",
-    owner.id || "No owner data available",
-    true
-  );
+
   guildCreateEmbed.setColor(Heptagram.colors.success);
   guildCreateEmbed.setTimestamp();
 

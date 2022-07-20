@@ -1,5 +1,3 @@
-import { Interaction } from "discord.js";
-
 import { CommandHandler } from "../../../interfaces/commands/CommandHandler";
 import { updateHistory } from "../../../modules/commands/moderation/updateHistory";
 import { errorEmbedGenerator } from "../../../modules/errorEmbedGenerator";
@@ -23,21 +21,21 @@ export const handleMute: CommandHandler = async (Heptagram, interaction) => {
     const durationMilliseconds = calculateMilliseconds(duration, durationUnit);
 
     if (!durationMilliseconds) {
-      await interaction.editReply({
+      await interaction.reply({
         content: "Invalid duration!",
       });
       return;
     }
 
     if (durationMilliseconds > 2419200000) {
-      await interaction.editReply({
+      await interaction.reply({
         content: "Duration too long!",
       });
       return;
     }
 
     if (!guild) {
-      await interaction.editReply({
+      await interaction.reply({
         content: "Missing Guild!!",
       });
       return;
@@ -51,27 +49,27 @@ export const handleMute: CommandHandler = async (Heptagram, interaction) => {
       !member.permissions.has("MODERATE_MEMBERS") ||
       (targetMember && targetMember.permissions.has("MODERATE_MEMBERS"))
     ) {
-      await interaction.editReply({
+      await interaction.reply({
         content: "You don't have permission to do that!",
       });
       return;
     }
 
     if (!targetMember) {
-      await interaction.editReply({
+      await interaction.reply({
         content: "That user appears to have left the guild.",
       });
       return;
     }
 
     if (target.id === member.user.id) {
-      await interaction.editReply({
+      await interaction.reply({
         content: "You can't mute yourself!",
       });
       return;
     }
     if (target.id === Heptagram.user?.id) {
-      await interaction.editReply({
+      await interaction.reply({
         content: "You can't mute me!",
       });
       return;
@@ -83,7 +81,7 @@ export const handleMute: CommandHandler = async (Heptagram, interaction) => {
 
     await targetUser.timeout(durationMilliseconds, reason);
 
-    await interaction.editReply({
+    await interaction.reply({
       content: "Muted " + target.tag + " for " + reason,
     });
   } catch (err) {
@@ -95,7 +93,7 @@ export const handleMute: CommandHandler = async (Heptagram, interaction) => {
       undefined,
       interaction
     );
-    await interaction.editReply({
+    await interaction.reply({
       embeds: [errorEmbedGenerator(Heptagram, "mute", errorId)],
     });
   }

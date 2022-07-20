@@ -1,4 +1,4 @@
-import { Guild, MessageEmbed } from "discord.js";
+import { Guild, EmbedBuilder } from "discord.js";
 
 import { Heptagram } from "../../interfaces/Heptagram";
 
@@ -13,21 +13,31 @@ export const guildDelete = async (
   guild: Guild
 ): Promise<void> => {
   const owner = await guild.members.fetch(guild.ownerId).catch(() => null);
-  const guildDeleteEmbed = new MessageEmbed();
+  const guildDeleteEmbed = new EmbedBuilder();
   guildDeleteEmbed.setTitle(
     `${Heptagram.user?.username || "Heptagram"} has left a guild...`
   );
-  guildDeleteEmbed.addField("Guild Name", guild.name, true);
-  guildDeleteEmbed.addField(
-    "Guild Owner",
-    owner?.user.username || "No owner data available.",
-    true
-  );
-  guildDeleteEmbed.addField("Guild ID", guild.id, true);
-  guildDeleteEmbed.addField(
-    "Guild Owner ID",
-    guild.ownerId || "No owner data available",
-    true
+  guildDeleteEmbed.addFields(
+    {
+      name: "Guild Name",
+      value: guild.name,
+      inline: true,
+    },
+    {
+      name: "Guild Owner",
+      value: owner?.user.username || "No owner data available.",
+      inline: true,
+    },
+    {
+      name: "Guild ID",
+      value: guild.id,
+      inline: true,
+    },
+    {
+      name: "Guild Owner ID",
+      value: guild.ownerId || "No owner data available",
+      inline: true,
+    }
   );
   guildDeleteEmbed.setColor(Heptagram.colors.error);
   guildDeleteEmbed.setTimestamp();

@@ -1,4 +1,4 @@
-import { GuildMember, MessageEmbed, TextBasedChannel } from "discord.js";
+import { GuildMember, EmbedBuilder, TextBasedChannel } from "discord.js";
 
 import { Heptagram } from "../../../interfaces/Heptagram";
 import { heptagramErrorHandler } from "../../../modules/heptagramErrorHandler";
@@ -18,88 +18,84 @@ export const validateChannelPerms = async (
 ): Promise<boolean> => {
   try {
     const kickMembers = HeptagramBot.permissionsIn(channel.id).has(
-      "KICK_MEMBERS"
+      "KickMembers"
     );
-    const banMembers = HeptagramBot.permissionsIn(channel.id).has(
-      "BAN_MEMBERS"
-    );
+    const banMembers = HeptagramBot.permissionsIn(channel.id).has("BanMembers");
     const manageNicknames = HeptagramBot.permissionsIn(channel.id).has(
-      "MANAGE_NICKNAMES"
+      "ManageNicknames"
     );
 
     const changeNickname = HeptagramBot.permissionsIn(channel.id).has(
-      "CHANGE_NICKNAME"
+      "ChangeNickname"
     );
 
     const viewAuditLog = HeptagramBot.permissionsIn(channel.id).has(
-      "VIEW_AUDIT_LOG"
+      "ViewAuditLog"
     );
 
     const manageEvents = HeptagramBot.permissionsIn(channel.id).has(
-      "MANAGE_EVENTS"
+      "ManageEvents"
     );
 
     const moderateMembers = HeptagramBot.permissionsIn(channel.id).has(
-      "MODERATE_MEMBERS"
+      "ModerateMembers"
     );
 
     const sendMessages = HeptagramBot.permissionsIn(channel.id).has(
-      "SEND_MESSAGES"
+      "SendMessages"
     );
 
     const sendMessagesInThreads = HeptagramBot.permissionsIn(channel.id).has(
-      "SEND_MESSAGES_IN_THREADS"
+      "SendMessagesInThreads"
     );
 
     const createPublicThreads = HeptagramBot.permissionsIn(channel.id).has(
-      "CREATE_PUBLIC_THREADS"
+      "CreatePublicThreads"
     );
 
     const createPrivateThreads = HeptagramBot.permissionsIn(channel.id).has(
-      "CREATE_PRIVATE_THREADS"
+      "CreatePrivateThreads"
     );
 
     const manageMessages = HeptagramBot.permissionsIn(channel.id).has(
-      "MANAGE_MESSAGES"
+      "ManageMessages"
     );
 
     const manageThreads = HeptagramBot.permissionsIn(channel.id).has(
-      "MANAGE_THREADS"
+      "ManageThreads"
     );
 
-    const embedLinks = HeptagramBot.permissionsIn(channel.id).has(
-      "EMBED_LINKS"
-    );
+    const embedLinks = HeptagramBot.permissionsIn(channel.id).has("EmbedLinks");
 
     const readMessageHistory = HeptagramBot.permissionsIn(channel.id).has(
-      "READ_MESSAGE_HISTORY"
+      "ReadMessageHistory"
     );
 
     const addReactions = HeptagramBot.permissionsIn(channel.id).has(
-      "ADD_REACTIONS"
+      "AddReactions"
     );
 
     const useExternalEmojis = HeptagramBot.permissionsIn(channel.id).has(
-      "USE_EXTERNAL_EMOJIS"
+      "UseExternalEmojis"
     );
 
     const useExternalStickers = HeptagramBot.permissionsIn(channel.id).has(
-      "USE_EXTERNAL_STICKERS"
+      "UseExternalStickers"
     );
 
     const muteMembers = HeptagramBot.permissionsIn(channel.id).has(
-      "MUTE_MEMBERS"
+      "MuteMembers"
     );
 
     const deafenMembers = HeptagramBot.permissionsIn(channel.id).has(
-      "DEAFEN_MEMBERS"
+      "DeafenMembers"
     );
 
     const moveMembers = HeptagramBot.permissionsIn(channel.id).has(
-      "MOVE_MEMBERS"
+      "MoveMembers"
     );
 
-    const permissionEmbed = new MessageEmbed();
+    const permissionEmbed = new EmbedBuilder();
     permissionEmbed.setTitle("Chennel Level Permissions");
     permissionEmbed.setDescription(
       "Here are the permissions that I have in this channel."

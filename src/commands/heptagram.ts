@@ -91,7 +91,7 @@ export const heptagram: Command = {
         undefined,
         interaction
       );
-      await interaction.editReply({
+      await interaction.reply({
         embeds: [errorEmbedGenerator(Heptagram, "heptagram group", errorId)],
       });
     }

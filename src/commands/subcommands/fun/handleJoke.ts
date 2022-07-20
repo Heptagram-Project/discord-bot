@@ -1,5 +1,5 @@
 import axios from "axios";
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 
 import { CommandHandler } from "../../../interfaces/commands/CommandHandler";
 import { Joke } from "../../../interfaces/commands/fun/Joke";
@@ -27,13 +27,13 @@ export const handleJoke: CommandHandler = async (
     );
 
     if (!joke.data || joke.status !== 200) {
-      await interaction.editReply({
+      await interaction.reply({
         content: "Something went wrong while fetching a joke.",
       });
       return;
     }
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setColor(Heptagram.colors.default)
       .setTitle("Here is a random joke for you!")
       .setDescription(joke.data.joke)
@@ -43,7 +43,7 @@ export const handleJoke: CommandHandler = async (
         iconURL: `${Heptagram.user?.avatarURL()}`,
       });
 
-    await interaction.editReply({ embeds: [embed] });
+    await interaction.reply({ embeds: [embed] });
   } catch (err) {
     const errorId = await heptagramErrorHandler(
       Heptagram,
@@ -53,7 +53,7 @@ export const handleJoke: CommandHandler = async (
       undefined,
       interaction
     );
-    await interaction.editReply({
+    await interaction.reply({
       embeds: [errorEmbedGenerator(Heptagram, "joke", errorId)],
     });
   }

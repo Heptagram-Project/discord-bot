@@ -12,7 +12,7 @@ export const automodListener: Listener = {
   description: "Handles the automod logic",
   run: async (Heptagram, message) => {
     try {
-      if (message.member?.permissions.has("MANAGE_MESSAGES")) {
+      if (message.member?.permissions.has("ManageMessages")) {
         return;
       }
     } catch (error) {

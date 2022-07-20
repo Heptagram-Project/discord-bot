@@ -1,4 +1,4 @@
-import { GuildMember, MessageEmbed } from "discord.js";
+import { GuildMember, EmbedBuilder } from "discord.js";
 
 import { CommandHandler } from "../../../interfaces/commands/CommandHandler";
 import { validateChannelPerms } from "../../../modules/commands/server/validateChannelPerms";
@@ -18,7 +18,7 @@ export const handlePermissions: CommandHandler = async (
     const { channel, guild, member } = interaction;
 
     if (!guild || !member || !channel) {
-      await interaction.editReply({
+      await interaction.reply({
         content:
           "I'm sorry, but I don't know what channel or server you're in. " +
           "Are you sure you're in a server?",
@@ -30,7 +30,7 @@ export const handlePermissions: CommandHandler = async (
       !(member as GuildMember).permissions.has("MANAGE_GUILD") &&
       (member as GuildMember).id !== Heptagram.configs.ownerId
     ) {
-      await interaction.editReply({
+      await interaction.reply({
         content: "You don't have permissions here!",
       });
       return;
@@ -39,7 +39,7 @@ export const handlePermissions: CommandHandler = async (
     const HeptagramBot = guild.me;
 
     if (!HeptagramBot) {
-      await interaction.editReply({
+      await interaction.reply({
         content:
           "I am missing permissions in this server. Please contact the server owner.",
       });
@@ -63,7 +63,7 @@ export const handlePermissions: CommandHandler = async (
       ? "I have the correct permissions in this server and channel."
       : "I do not have the correct permissions in this server and channel.";
 
-    const validEmbed = new MessageEmbed();
+    const validEmbed = new EmbedBuilder();
     validEmbed.setTitle(
       areValid ? "Permssions are valid." : "Permissions are invalid."
     );
@@ -76,7 +76,7 @@ export const handlePermissions: CommandHandler = async (
       iconURL: `${Heptagram.user?.avatarURL()}`,
     });
 
-    await interaction.editReply({ embeds: [validEmbed] });
+    await interaction.reply({ embeds: [validEmbed] });
   } catch (err) {
     const errorId = await heptagramErrorHandler(
       Heptagram,
@@ -86,7 +86,7 @@ export const handlePermissions: CommandHandler = async (
       undefined,
       interaction
     );
-    await interaction.editReply({
+    await interaction.reply({
       embeds: [errorEmbedGenerator(Heptagram, "permissions", errorId)],
     });
   }

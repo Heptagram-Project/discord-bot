@@ -1,4 +1,9 @@
-import { MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
+import {
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  EmbedBuilder,
+} from "discord.js";
 
 import { CommandHandler } from "../../../interfaces/commands/CommandHandler";
 import { errorEmbedGenerator } from "../../../modules/errorEmbedGenerator";
@@ -10,45 +15,56 @@ import { heptagramErrorHandler } from "../../../modules/heptagramErrorHandler";
  */
 export const handleHelp: CommandHandler = async (Heptagram, interaction) => {
   try {
-    const helpEmbed = new MessageEmbed();
+    const helpEmbed = new EmbedBuilder();
     helpEmbed.setTitle("Help");
     helpEmbed.setDescription("Here are some ways to interact with Heptagram.");
-    helpEmbed.addField(
-      "Contact the developer team:",
-      "Use the `Support Server` button."
+    helpEmbed.addFields(
+      {
+        name: "Contact the developer team:",
+        value: "Use the `Support Server` button.",
+      },
+      {
+        name: "Access the documentation:",
+        value: "Use the `Documentation` button.",
+      },
+      {
+        name: "Source Code:",
+        value: "Use the `Source Code` button.",
+      },
+      {
+        name: "Report a bug:",
+        value: "Use the `Report a Bug` button.",
+      }
     );
-    helpEmbed.addField("Access the Heptagram Docs:", "Use the `Docs` button.");
-    helpEmbed.addField("Source Code:", "Use the `Source Code` button.");
-    helpEmbed.addField("Report a bug:", "Use the `Report a Bug` button.");
     helpEmbed.setFooter({
       text: `Message sent by Heptagram || ${Heptagram.version}`,
       iconURL: `${Heptagram.user?.avatarURL()}`,
     });
 
-    const supportServerButton = new MessageButton()
+    const supportServerButton = new ButtonBuilder()
       .setLabel("Support Server")
-      .setStyle("LINK")
+      .setStyle(ButtonStyle.Link)
       .setURL("https://links.heptagrambotproject.com/discord");
-    const inviteButton = new MessageButton()
+    const inviteButton = new ButtonBuilder()
       .setLabel("Invite Heptagram")
-      .setStyle("LINK")
+      .setStyle(ButtonStyle.Link)
       .setURL("https://links.heptagrambotproject.com/invite");
-    const codeButton = new MessageButton()
+    const codeButton = new ButtonBuilder()
       .setLabel("Source Code")
-      .setStyle("LINK")
+      .setStyle(ButtonStyle.Link)
       .setURL("https://github.com/heptagram-bot-project/discord-bot");
-    const docsButton = new MessageButton()
-      .setLabel("Docs")
-      .setStyle("LINK")
+    const docsButton = new ButtonBuilder()
+      .setLabel("Doucmentation")
+      .setStyle(ButtonStyle.Link)
       .setURL("https://docs.heptagrambotproject.com");
-    const bugButton = new MessageButton()
+    const bugButton = new ButtonBuilder()
       .setLabel("Report a bug")
-      .setStyle("LINK")
+      .setStyle(ButtonStyle.Link)
       .setURL(
         "https://github.com/heptagram-bot-project/discord-bot/issues/new/choose"
       );
 
-    const row = new MessageActionRow().addComponents([
+    const row = new ActionRowBuilder().addComponents([
       supportServerButton,
       inviteButton,
       codeButton,
@@ -56,7 +72,7 @@ export const handleHelp: CommandHandler = async (Heptagram, interaction) => {
       bugButton,
     ]);
 
-    await interaction.editReply({ embeds: [helpEmbed], components: [row] });
+    await interaction.reply({ embeds: [helpEmbed], components: [row] });
   } catch (err) {
     const errorId = await heptagramErrorHandler(
       Heptagram,
@@ -66,7 +82,7 @@ export const handleHelp: CommandHandler = async (Heptagram, interaction) => {
       undefined,
       interaction
     );
-    await interaction.editReply({
+    await interaction.reply({
       embeds: [errorEmbedGenerator(Heptagram, "help", errorId)],
     });
   }

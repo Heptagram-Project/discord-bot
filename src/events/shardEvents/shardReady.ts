@@ -1,4 +1,4 @@
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 
 import { Heptagram } from "../../interfaces/Heptagram";
 /**
@@ -12,10 +12,10 @@ export const shardReady = async (
   Heptagram: Heptagram,
   shard: number
 ): Promise<void> => {
-  const shardEmbed = new MessageEmbed();
+  const shardEmbed = new EmbedBuilder();
   shardEmbed.setTitle("Shard Online!");
   shardEmbed.setDescription("Heptagram has brought a new shard online!");
-  shardEmbed.addField("Shard", shard.toString());
+  shardEmbed.addFields({ name: "Shard", value: shard.toString() });
   shardEmbed.setTimestamp();
   shardEmbed.setColor(Heptagram.colors.success);
 

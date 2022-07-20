@@ -1,8 +1,7 @@
 import {
   CommandInteraction,
-  ContextMenuInteraction,
   Message,
-  MessageEmbed,
+  EmbedBuilder,
   version as libraryVersion,
 } from "discord.js";
 import { Types } from "mongoose";
@@ -23,7 +22,7 @@ import { heptagramLogHandler } from "./heptagramLogHandler";
  * @param {unknown} err The standard error object (generated in a catch statement).
  * @param {string | undefined} guild The name of the guild that triggered the issue.
  * @param {Message | undefined} message Optional message that triggered the issue.
- * @param { CommandInteraction | ContextMenuInteraction | undefined } interaction Optional interaction that triggered the issue.
+ * @param { CommandInteraction | undefined } interaction Optional interaction that triggered the issue.
  * @returns {Types.ObjectId} A unique ID for the error.
  */
 export const heptagramErrorHandler = async (
@@ -32,7 +31,7 @@ export const heptagramErrorHandler = async (
   err: unknown,
   guild?: string,
   message?: Message,
-  interaction?: CommandInteraction | ContextMenuInteraction
+  interaction?: CommandInteraction
 ): Promise<Types.ObjectId> => {
   if (Heptagram.pm2.metrics.errors) {
     Heptagram.pm2.metrics.errors.mark();
@@ -45,17 +44,23 @@ export const heptagramErrorHandler = async (
   );
 
   const errorId = new Types.ObjectId();
-  const errorEmbed = new MessageEmbed();
+  const errorEmbed = new EmbedBuilder();
   errorEmbed.setTitle(
     `${context} error ${guild ? "in " + guild : "from an unknown source"}.`
   );
   errorEmbed.setColor(Heptagram.colors.error);
   errorEmbed.setDescription(customSubstring(error.message, 2000));
-  errorEmbed.addField(
-    "Stack Trace:",
-    `\`\`\`\n${customSubstring(error.stack || "null", 1000)}\n\`\`\``
+  errorEmbed.addFields(
+    {
+      name: "Stack Trace:",
+      value: `\`\`\`\n${customSubstring(error.stack || "null", 1000)}\n\`\`\``,
+    },
+    {
+      name: "Error ID:",
+      value: errorId.toHexString(),
+    }
   );
-  errorEmbed.addField("Error ID", errorId.toHexString());
+
   errorEmbed.addFields(
     { name: "Debug information:", value: "\u200B" },
     { name: "Bot Version", value: Heptagram.version, inline: true },
@@ -64,32 +69,34 @@ export const heptagramErrorHandler = async (
   ),
     errorEmbed.setTimestamp();
   if (message) {
-    errorEmbed.addField(
-      "Message Content:",
-      customSubstring(message.content, 1000)
-    );
+    errorEmbed.addFields({
+      name: "Message Content:",
+      value: customSubstring(message.content, 1000),
+    });
   }
 
   if (interaction) {
-    errorEmbed.addField(
-      "Interaction Details",
-      customSubstring(
-        `${interaction.commandName} ${
-          interaction.isCommand()
-            ? interaction.options.getSubcommand() || ""
-            : ""
-        }`,
-        1000
-      )
-    );
-    errorEmbed.addField(
-      "Interaction Options",
-      customSubstring(
-        interaction.options.data[0].options
-          ?.map((o) => `\`${o.name}\`: ${o.value}`)
-          .join(", ") || "no options",
-        1000
-      )
+    errorEmbed.addFields(
+      {
+        name: "Interaction Options",
+        value: customSubstring(
+          interaction.options.data[0].options
+            ?.map((o) => `\`${o.name}\`: ${o.value}`)
+            .join(", ") || "no options",
+          1000
+        ),
+      },
+      {
+        name: "Interaction Details",
+        value: customSubstring(
+          `${interaction.commandName} ${
+            interaction.isChatInputCommand()
+              ? interaction.isChatInputCommand() || ""
+              : ""
+          }`,
+          1000
+        ),
+      }
     );
   }
   await Heptagram.debugHook.send({ embeds: [errorEmbed] });

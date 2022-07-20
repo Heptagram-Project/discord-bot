@@ -24,7 +24,7 @@ export const registerCommands = async (
   Heptagram: Heptagram
 ): Promise<boolean> => {
   try {
-    const rest = new REST({ version: "9" }).setToken(Heptagram.configs.token);
+    const rest = new REST({ version: "10" }).setToken(Heptagram.configs.token);
 
     const commandData: (
       | RESTPostAPIApplicationCommandsJSONBody

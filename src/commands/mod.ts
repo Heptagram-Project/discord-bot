@@ -155,7 +155,7 @@ export const mod: Command = {
         undefined,
         interaction
       );
-      await interaction.editReply({
+      await interaction.reply({
         embeds: [errorEmbedGenerator(Heptagram, "mod group", errorId)],
       });
     }

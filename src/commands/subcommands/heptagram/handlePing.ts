@@ -1,4 +1,4 @@
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 import { connection } from "mongoose";
 
 import { CommandHandler } from "../../../interfaces/commands/CommandHandler";
@@ -26,7 +26,7 @@ export const handlePing: CommandHandler = async (
     const isSlow =
       discordAPILatency > 100 || wsLatency > 100 || databaseLatency > 100;
 
-    const pingEmbed = new MessageEmbed();
+    const pingEmbed = new EmbedBuilder();
     pingEmbed.setTitle(
       isSlow
         ? "<:status_offline:951855000538206238> Heptagram Pings <:status_offline:951855000538206238>"
@@ -68,7 +68,7 @@ export const handlePing: CommandHandler = async (
       iconURL: `${Heptagram.user?.avatarURL()}`,
     });
 
-    await interaction.editReply({ embeds: [pingEmbed] });
+    await interaction.reply({ embeds: [pingEmbed] });
   } catch (err) {
     const errorId = await heptagramErrorHandler(
       Heptagram,
@@ -78,7 +78,7 @@ export const handlePing: CommandHandler = async (
       undefined,
       interaction
     );
-    await interaction.editReply({
+    await interaction.reply({
       embeds: [errorEmbedGenerator(Heptagram, "ping", errorId)],
     });
   }

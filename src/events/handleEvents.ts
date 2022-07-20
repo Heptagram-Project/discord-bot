@@ -1,4 +1,3 @@
-/* eslint-disable jsdoc/require-param */
 import { Heptagram } from "../interfaces/Heptagram";
 
 import { disconnect } from "./clientEvents/disconnect";

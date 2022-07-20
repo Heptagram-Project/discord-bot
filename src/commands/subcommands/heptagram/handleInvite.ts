@@ -1,4 +1,4 @@
-import { MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
+import { MessageActionRow, MessageButton, EmbedBuilder } from "discord.js";
 
 import { CommandHandler } from "../../../interfaces/commands/CommandHandler";
 import { errorEmbedGenerator } from "../../../modules/errorEmbedGenerator";
@@ -11,7 +11,7 @@ import { heptagramErrorHandler } from "../../../modules/heptagramErrorHandler";
  */
 export const handleInvite: CommandHandler = async (Heptagram, interaction) => {
   try {
-    const inviteEmbed = new MessageEmbed();
+    const inviteEmbed = new EmbedBuilder();
     inviteEmbed.setTitle("Invite Heptagram");
     inviteEmbed.setDescription(
       "Use the `Invite Heptagram` button to get the invite link"
@@ -23,14 +23,14 @@ export const handleInvite: CommandHandler = async (Heptagram, interaction) => {
     });
     inviteEmbed.setTimestamp();
 
-    const inviteButton = new MessageButton()
+    const inviteButton = new ButtonBuilder()
       .setLabel("Invite Heptagram")
-      .setStyle("LINK")
+      .setStyle(ButtonStyle.Link)
       .setURL("https://links.heptagrambotproject.com/invite");
 
-    const row = new MessageActionRow().addComponents([inviteButton]);
+    const row = new ActionRowBuilder().addComponents([inviteButton]);
 
-    await interaction.editReply({ embeds: [inviteEmbed], components: [row] });
+    await interaction.reply({ embeds: [inviteEmbed], components: [row] });
   } catch (err) {
     const errorId = await heptagramErrorHandler(
       Heptagram,
@@ -40,7 +40,7 @@ export const handleInvite: CommandHandler = async (Heptagram, interaction) => {
       undefined,
       interaction
     );
-    await interaction.editReply({
+    await interaction.reply({
       embeds: [errorEmbedGenerator(Heptagram, "invite", errorId)],
     });
   }

@@ -17,7 +17,7 @@ export const usageListener = {
   ): Promise<void> => {
     try {
       const command = interaction.commandName;
-      const subcommand = interaction.options.getSubcommand();
+      const subcommand = interaction.isChatInputCommand();
 
       const data =
         (await UsageModel.findOne({ command, subcommand })) ||

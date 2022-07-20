@@ -1,4 +1,4 @@
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 
 import { Heptagram } from "../../interfaces/Heptagram";
 /**
@@ -7,7 +7,7 @@ import { Heptagram } from "../../interfaces/Heptagram";
  * @param {Heptagram} Heptagram's Discord instance.
  */
 export const disconnect = async (Heptagram: Heptagram): Promise<void> => {
-  const disconnectEmbed = new MessageEmbed();
+  const disconnectEmbed = new EmbedBuilder();
   disconnectEmbed.setTitle("Heptagram has disconnected");
   disconnectEmbed.setDescription(
     `${

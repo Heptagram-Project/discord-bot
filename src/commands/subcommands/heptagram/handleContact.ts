@@ -9,20 +9,20 @@ import { heptagramErrorHandler } from "../../../modules/heptagramErrorHandler";
  */
 export const handleContact: CommandHandler = async (Heptagram, interaction) => {
   try {
-    const discordButton = new MessageButton()
-      .setStyle("LINK")
+    const discordButton = new ButtonBuilder()
+      .setStyle(ButtonStyle.Link)
       .setLabel("Discord")
       .setURL("https://links.heptagrambotproject.com/discord");
-    const githubButton = new MessageButton()
-      .setStyle("LINK")
+    const githubButton = new ButtonBuilder()
+      .setStyle(ButtonStyle.Link)
       .setLabel("GitHub")
       .setURL("https://github.com/heptagram-bot-project/discord-bot");
 
-    const row = new MessageActionRow().addComponents([
+    const row = new ActionRowBuilder().addComponents([
       discordButton,
       githubButton,
     ]);
-    await interaction.editReply({
+    await interaction.reply({
       content: "Contact the developer team.",
       components: [row],
     });
@@ -33,7 +33,7 @@ export const handleContact: CommandHandler = async (Heptagram, interaction) => {
       err,
       interaction.guild?.name
     );
-    await interaction.editReply({
+    await interaction.reply({
       embeds: [errorEmbedGenerator(Heptagram, "contact", errorId)],
     });
   }

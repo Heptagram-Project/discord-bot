@@ -1,4 +1,4 @@
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 
 import { Heptagram } from "../../interfaces/Heptagram";
 import { heptagramLogHandler } from "../../modules/heptagramLogHandler";
@@ -11,7 +11,7 @@ import { heptagramLogHandler } from "../../modules/heptagramLogHandler";
  */
 export const ready = async (Heptagram: Heptagram): Promise<void> => {
   heptagramLogHandler.log("info", "Fetching reaction role data...");
-  const readyEmbed = new MessageEmbed();
+  const readyEmbed = new EmbedBuilder();
   readyEmbed.setTitle(
     "<:status_online:951855000605298708> Heptagram is online <:status_online:951855000605298708>"
   );

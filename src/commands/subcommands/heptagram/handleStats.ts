@@ -1,5 +1,5 @@
 import { DurationFormatter } from "@sapphire/time-utilities";
-import { MessageEmbed, version } from "discord.js";
+import { EmbedBuilder, version } from "discord.js";
 
 import { CommandHandler } from "../../../interfaces/commands/CommandHandler";
 import { errorEmbedGenerator } from "../../../modules/errorEmbedGenerator";
@@ -30,7 +30,7 @@ export const handleStats: CommandHandler = async (Heptagram, interaction) => {
     • Bot        :: ${Heptagram.version}
     `;
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setColor(Heptagram.colors.default)
       .setTitle("Heptagram Statistics")
       .setDescription(stats)
@@ -40,7 +40,7 @@ export const handleStats: CommandHandler = async (Heptagram, interaction) => {
         iconURL: `${Heptagram.user?.avatarURL()}`,
       });
 
-    await interaction.editReply({ embeds: [embed] });
+    await interaction.reply({ embeds: [embed] });
   } catch (err) {
     const errorId = await heptagramErrorHandler(
       Heptagram,
@@ -50,7 +50,7 @@ export const handleStats: CommandHandler = async (Heptagram, interaction) => {
       undefined,
       interaction
     );
-    await interaction.editReply({
+    await interaction.reply({
       embeds: [errorEmbedGenerator(Heptagram, "updates", errorId)],
     });
   }

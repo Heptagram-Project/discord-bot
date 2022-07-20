@@ -1,4 +1,4 @@
-import { Message, MessageEmbed } from "discord.js";
+import { Message, EmbedBuilder } from "discord.js";
 import moment from "moment";
 
 import { Heptagram } from "../../../interfaces/Heptagram";
@@ -14,7 +14,7 @@ export const reboot = async (Heptagram: Heptagram, message: Message) => {
   // set time to current time in unix
   const time = moment().unix();
 
-  const embed = new MessageEmbed()
+  const embed = new EmbedBuilder()
     .setColor(Heptagram.colors.error)
     .setTitle(
       `<:status_offline:951855000538206238> **Bot Restarting...** <:status_offline:951855000538206238>`

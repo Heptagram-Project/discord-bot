@@ -1,5 +1,3 @@
-import { Interaction } from "discord.js";
-
 import { CommandHandler } from "../../../interfaces/commands/CommandHandler";
 import { updateHistory } from "../../../modules/commands/moderation/updateHistory";
 import { errorEmbedGenerator } from "../../../modules/errorEmbedGenerator";
@@ -20,7 +18,7 @@ export const handleKick: CommandHandler = async (Heptagram, interaction) => {
     const reason = interaction.options.getString("reason", true);
 
     if (!guild) {
-      await interaction.editReply({
+      await interaction.reply({
         content: "Missing Guild!!",
       });
       return;
@@ -34,34 +32,34 @@ export const handleKick: CommandHandler = async (Heptagram, interaction) => {
       !member.permissions.has("KICK_MEMBERS") ||
       (targetMember && targetMember.permissions.has("KICK_MEMBERS"))
     ) {
-      await interaction.editReply({
+      await interaction.reply({
         content: "You don't have permission to do that!",
       });
       return;
     }
 
     if (!targetMember) {
-      await interaction.editReply({
+      await interaction.reply({
         content: "That user appears to have left the guild.",
       });
       return;
     }
 
     if (target.id === member.user.id) {
-      await interaction.editReply({
+      await interaction.reply({
         content: "You can't kick yourself!",
       });
       return;
     }
     if (target.id === Heptagram.user?.id) {
-      await interaction.editReply({
+      await interaction.reply({
         content: "You can't kick me!",
       });
       return;
     }
 
     if (!targetMember.kickable) {
-      await interaction.editReply({
+      await interaction.reply({
         content: "I can't kick this user!",
       });
       return;
@@ -71,7 +69,7 @@ export const handleKick: CommandHandler = async (Heptagram, interaction) => {
 
     await targetMember.kick(customSubstring(reason, 1000));
 
-    await interaction.editReply({ content: "Kicked " + target.tag });
+    await interaction.reply({ content: "Kicked " + target.tag });
   } catch (err) {
     const errorId = await heptagramErrorHandler(
       Heptagram,
@@ -81,7 +79,7 @@ export const handleKick: CommandHandler = async (Heptagram, interaction) => {
       undefined,
       interaction
     );
-    await interaction.editReply({
+    await interaction.reply({
       embeds: [errorEmbedGenerator(Heptagram, "kick", errorId)],
     });
   }

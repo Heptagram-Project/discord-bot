@@ -1,5 +1,5 @@
 /* eslint-disable require-atomic-updates */
-import { Client, WebhookClient } from "discord.js";
+import { ActivityType, Client, WebhookClient } from "discord.js";
 import "dotenv/config";
 
 import { IntentOptions, PartialsOptions } from "./config/IntentOptions";
@@ -119,9 +119,9 @@ and destroys the discord.js client in order to allow for a graceful shutdown. */
   heptagramLogHandler.log("info", "Connecting to Discord...");
   await Heptagram.login(Heptagram.configs.token);
   heptagramLogHandler.log("info", "Setting activity...");
-  Heptagram.user?.setActivity("over your guild", {
-    type: "WATCHING",
-  });
+
+  // TODO: SET CUSTOM ACTIVITY
+  Heptagram.user?.setActivity("discord.js", { type: ActivityType.Watching });
 })();
 
 export default Heptagram;

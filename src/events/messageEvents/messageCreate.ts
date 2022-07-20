@@ -1,4 +1,4 @@
-import { Message } from "discord.js";
+import { ChannelType, Message } from "discord.js";
 
 import { Heptagram } from "../../interfaces/Heptagram";
 import { automodPhish } from "../../listeners/automod/automodPhish";
@@ -25,7 +25,7 @@ export const messageCreate = async (
       return;
     }
 
-    if (!guild || channel.type === "DM") {
+    if (!guild || channel.type === ChannelType.DM) {
       return;
     }
 

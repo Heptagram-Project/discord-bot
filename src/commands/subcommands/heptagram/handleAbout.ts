@@ -1,4 +1,9 @@
-import { MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
+import {
+  ButtonBuilder,
+  EmbedBuilder,
+  ButtonStyle,
+  ActionRowBuilder,
+} from "discord.js";
 
 import { CommandHandler } from "../../../interfaces/commands/CommandHandler";
 import { errorEmbedGenerator } from "../../../modules/errorEmbedGenerator";
@@ -11,46 +16,48 @@ import { heptagramErrorHandler } from "../../../modules/heptagramErrorHandler";
 export const handleAbout: CommandHandler = async (Heptagram, interaction) => {
   try {
     const { guilds, members, commands } = getCounts(Heptagram);
-    const aboutEmbed = new MessageEmbed();
+    const aboutEmbed = new EmbedBuilder();
     aboutEmbed.setColor(Heptagram.colors.default);
     aboutEmbed.setTitle("About Heptagram");
     aboutEmbed.setDescription(
       "The open-source & multipurpose Discord bot with the goal to be the single needed bot for any server."
     );
-    aboutEmbed.addField(
-      "Version:",
-      Heptagram.version || "unknown version",
-      true
+    aboutEmbed.addFields(
+      {
+        name: "Version:",
+        value: Heptagram.version || "unknown version",
+        inline: true,
+      },
+      { name: "Date Created:", value: "Mar 26, 2021", inline: true },
+      { name: "Number of Guilds:", value: guilds.toString(), inline: true },
+      { name: "Number of Members:", value: members.toString(), inline: true },
+      { name: "Number of Commands:", value: commands.toString(), inline: true }
     );
-    aboutEmbed.addField("Date Created:", "Mar 26, 2021", true);
-    aboutEmbed.addField("Number of Guilds:", guilds.toString(), true);
-    aboutEmbed.addField("Number of Members:", members.toString(), true);
-    aboutEmbed.addField("Number of Commands:", commands.toString(), true);
     aboutEmbed.setFooter({
       text: `Message sent by Heptagram || ${Heptagram.version}`,
       iconURL: `${Heptagram.user?.avatarURL()}`,
     });
 
-    const supportServerButton = new MessageButton()
+    const supportServerButton = new ButtonBuilder()
       .setLabel("Support Server")
-      .setStyle("LINK")
+      .setStyle(ButtonStyle.Link)
       .setURL("https://links.heptagrambotproject.com/discord");
-    const inviteButton = new MessageButton()
+    const inviteButton = new ButtonBuilder()
       .setLabel("Invite Heptagram")
-      .setStyle("LINK")
+      .setStyle(ButtonStyle.Link)
       .setURL("https://links.heptagrambotproject.com/invite");
-    const codeButton = new MessageButton()
+    const codeButton = new ButtonBuilder()
       .setLabel("GitHub Repository")
-      .setStyle("LINK")
+      .setStyle(ButtonStyle.Link)
       .setURL("https://github.com/heptagram-bot-project/discord-bot");
 
-    const row = new MessageActionRow().addComponents([
+    const row = new ActionRowBuilder().addComponents([
       supportServerButton,
       inviteButton,
       codeButton,
     ]);
 
-    await interaction.editReply({ embeds: [aboutEmbed], components: [row] });
+    await interaction.reply({ embeds: [aboutEmbed], components: [row] });
   } catch (err) {
     const errorId = await heptagramErrorHandler(
       Heptagram,
@@ -60,7 +67,7 @@ export const handleAbout: CommandHandler = async (Heptagram, interaction) => {
       undefined,
       interaction
     );
-    await interaction.editReply({
+    await interaction.reply({
       embeds: [errorEmbedGenerator(Heptagram, "about", errorId)],
     });
   }

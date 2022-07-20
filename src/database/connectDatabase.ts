@@ -1,4 +1,4 @@
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 import { connect } from "mongoose";
 
 import { Heptagram } from "../interfaces/Heptagram";
@@ -16,7 +16,7 @@ export const connectDatabase = async (
   try {
     await connect(Heptagram.configs.mongoUri);
 
-    const databaseEmbed = new MessageEmbed();
+    const databaseEmbed = new EmbedBuilder();
     databaseEmbed.setTitle("Database connected!");
     databaseEmbed.setDescription(
       `${

@@ -1,4 +1,4 @@
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 
 import { CommandHandler } from "../../../interfaces/commands/CommandHandler";
 import { errorEmbedGenerator } from "../../../modules/errorEmbedGenerator";
@@ -19,7 +19,7 @@ export const handleUptime: CommandHandler = async (Heptagram, interaction) => {
         : 0;
     const secondsRemain = seconds - days * 86400 - hours * 3600 - minutes * 60;
 
-    const uptimeEmbed = new MessageEmbed();
+    const uptimeEmbed = new EmbedBuilder();
     uptimeEmbed.setTitle(
       "<:status_online:951855000605298708> Uptime: <:status_online:951855000605298708>"
     );
@@ -35,7 +35,7 @@ export const handleUptime: CommandHandler = async (Heptagram, interaction) => {
       iconURL: `${Heptagram.user?.avatarURL()}`,
     });
 
-    await interaction.editReply({ embeds: [uptimeEmbed] });
+    await interaction.reply({ embeds: [uptimeEmbed] });
   } catch (err) {
     const errorId = await heptagramErrorHandler(
       Heptagram,
@@ -45,7 +45,7 @@ export const handleUptime: CommandHandler = async (Heptagram, interaction) => {
       undefined,
       interaction
     );
-    await interaction.editReply({
+    await interaction.reply({
       embeds: [errorEmbedGenerator(Heptagram, "uptime", errorId)],
     });
   }

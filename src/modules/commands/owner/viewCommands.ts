@@ -1,6 +1,6 @@
 import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v9";
-import { Message, MessageEmbed } from "discord.js";
+import { Message, EmbedBuilder } from "discord.js";
 
 import { CommandData } from "../../../interfaces/commands/CommandData";
 import { Heptagram } from "../../../interfaces/Heptagram";
@@ -25,16 +25,17 @@ export const viewCommands = async (Heptagram: Heptagram, message: Message) => {
       return;
     }
 
-    const embed = new MessageEmbed();
+    const embed = new EmbedBuilder();
     embed.setTitle("Available Commands");
     embed.setDescription("These are the commands I have loaded.");
 
     for (const command of commands) {
-      embed.addField(
-        command.name,
-        command.options?.map((opt) => opt.name).join(", ") ||
-          "This command has no options."
-      );
+      embed.addFields({
+        name: command.name,
+        value:
+          command.options?.map((opt) => opt.name).join(", ") ||
+          "This command has no options.",
+      });
     }
 
     await message.reply({ embeds: [embed] });

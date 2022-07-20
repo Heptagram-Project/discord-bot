@@ -1,17 +1,17 @@
-import { IntentsString, PartialTypes } from "discord.js";
+import { GatewayIntentBits, Partials } from "discord.js";
 
-export const IntentOptions: IntentsString[] = [
-  "GUILDS",
-  "DIRECT_MESSAGES",
-  "GUILD_BANS",
-  "GUILD_EMOJIS_AND_STICKERS",
-  "GUILD_INVITES",
-  "GUILD_MESSAGES",
-  "GUILD_MESSAGE_REACTIONS",
+export const IntentOptions = [
+  GatewayIntentBits.Guilds,
+  GatewayIntentBits.DirectMessages,
+  GatewayIntentBits.GuildBans,
+  GatewayIntentBits.GuildEmojisAndStickers,
+  GatewayIntentBits.GuildInvites,
+  GatewayIntentBits.GuildMessages,
+  GatewayIntentBits.GuildMessageReactions,
 ];
 
-export const PartialsOptions: PartialTypes[] = [
-  "MESSAGE",
-  "CHANNEL",
-  "REACTION",
+export const PartialsOptions = [
+  Partials.Message,
+  Partials.Channel,
+  Partials.Reaction,
 ];

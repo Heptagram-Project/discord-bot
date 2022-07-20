@@ -1,5 +1,5 @@
 import axios from "axios";
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 
 import { CommandHandler } from "../../../interfaces/commands/CommandHandler";
 import { errorEmbedGenerator } from "../../../modules/errorEmbedGenerator";
@@ -24,7 +24,7 @@ export const handleCat: CommandHandler = async (
     );
     const catUrl = catApiResponse.data[0].url;
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setColor(Heptagram.colors.default)
       .setTitle("Here is a random cat for you!")
       .setImage(catUrl)
@@ -34,7 +34,7 @@ export const handleCat: CommandHandler = async (
         iconURL: catUrl,
       });
 
-    await interaction.editReply({ embeds: [embed] });
+    await interaction.reply({ embeds: [embed] });
   } catch (err) {
     const errorId = await heptagramErrorHandler(
       Heptagram,
@@ -44,7 +44,7 @@ export const handleCat: CommandHandler = async (
       undefined,
       interaction
     );
-    await interaction.editReply({
+    await interaction.reply({
       embeds: [errorEmbedGenerator(Heptagram, "cat", errorId)],
     });
   }

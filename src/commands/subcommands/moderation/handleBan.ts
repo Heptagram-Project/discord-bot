@@ -1,5 +1,3 @@
-import { Interaction } from "discord.js";
-
 import { CommandHandler } from "../../../interfaces/commands/CommandHandler";
 import { updateHistory } from "../../../modules/commands/moderation/updateHistory";
 import { errorEmbedGenerator } from "../../../modules/errorEmbedGenerator";
@@ -21,7 +19,7 @@ export const handleBan: CommandHandler = async (Heptagram, interaction) => {
     const reason = interaction.options.getString("reason", true);
 
     if (!guild) {
-      await interaction.editReply({
+      await interaction.reply({
         content: "Missing Guild!!",
       });
       return;
@@ -35,41 +33,41 @@ export const handleBan: CommandHandler = async (Heptagram, interaction) => {
       !member.permissions.has("BAN_MEMBERS") ||
       (targetMember && targetMember.permissions.has("BAN_MEMBERS"))
     ) {
-      await interaction.editReply({
+      await interaction.reply({
         content: "You don't have permission to do that!",
       });
       return;
     }
 
     if (!targetMember) {
-      await interaction.editReply({
+      await interaction.reply({
         content: "That user appears to have left the guild.",
       });
       return;
     }
 
     if (target.id === member.user.id) {
-      await interaction.editReply({
+      await interaction.reply({
         content: "You can't ban yourself!",
       });
       return;
     }
     if (target.id === Heptagram.user?.id) {
-      await interaction.editReply({
+      await interaction.reply({
         content: "You can't ban me!",
       });
       return;
     }
 
     if (prune < 0 || prune > 7) {
-      await interaction.editReply({
+      await interaction.reply({
         content: "Invalid prune value!",
       });
       return;
     }
 
     if (!targetMember.bannable) {
-      await interaction.editReply({
+      await interaction.reply({
         content: "I can't ban that user!",
       });
       return;
@@ -82,7 +80,7 @@ export const handleBan: CommandHandler = async (Heptagram, interaction) => {
       days: prune,
     });
 
-    await interaction.editReply({
+    await interaction.reply({
       content: `Banned ${target.tag}`,
     });
   } catch (err) {
@@ -94,7 +92,7 @@ export const handleBan: CommandHandler = async (Heptagram, interaction) => {
       undefined,
       interaction
     );
-    await interaction.editReply({
+    await interaction.reply({
       embeds: [errorEmbedGenerator(Heptagram, "ban", errorId)],
     });
   }

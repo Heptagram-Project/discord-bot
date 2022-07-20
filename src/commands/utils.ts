@@ -67,7 +67,7 @@ export const utils: Command = {
         undefined,
         interaction
       );
-      await interaction.editReply({
+      await interaction.reply({
         embeds: [errorEmbedGenerator(Heptagram, "utils group", errorId)],
       });
     }

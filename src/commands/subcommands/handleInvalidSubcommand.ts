@@ -9,7 +9,7 @@ export const handleInvalidSubcommand: CommandHandler = async (
   interaction
 ) => {
   try {
-    await interaction.editReply({
+    await interaction.reply({
       content: "Command Invalid!",
     });
   } catch (err) {

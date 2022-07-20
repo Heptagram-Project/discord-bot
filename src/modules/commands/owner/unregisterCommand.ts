@@ -1,6 +1,6 @@
 import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v9";
-import { Message, MessageEmbed } from "discord.js";
+import { Message, EmbedBuilder } from "discord.js";
 
 import { CommandData } from "../../../interfaces/commands/CommandData";
 import { Heptagram } from "../../../interfaces/Heptagram";
@@ -45,13 +45,17 @@ export const unregisterCommand = async (
       `${Routes.applicationCommands(Heptagram.configs.id)}/${command.id}`
     );
 
-    const confirm = new MessageEmbed();
+    const confirm = new EmbedBuilder();
     confirm.setTitle(`${command.name} as been unregistered.`);
     confirm.setDescription(command.description);
 
     if (command.options) {
       for (const option of command.options) {
-        confirm.addField(option.name, option.description, true);
+        confirm.addFields({
+          name: option.name,
+          value: option.description,
+          inline: true,
+        });
       }
     }
 

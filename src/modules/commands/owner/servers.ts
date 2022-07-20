@@ -1,4 +1,4 @@
-import { MessageEmbed, Message, Guild } from "discord.js";
+import { EmbedBuilder, Message, Guild } from "discord.js";
 
 import { Heptagram } from "../../../interfaces/Heptagram";
 import { heptagramErrorHandler } from "../../heptagramErrorHandler";
@@ -30,7 +30,7 @@ export const servers = async (Heptagram: Heptagram, message: Message) => {
       }
 
       guild.fetchOwner().then(async (GuildMember) => {
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
           .setColor(Heptagram.colors.default)
           .setTitle(`Server info for the ${guild.name} server:`)
           .setDescription("Server Information for the specified guild.")

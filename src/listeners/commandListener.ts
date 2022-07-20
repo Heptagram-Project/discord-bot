@@ -1,4 +1,3 @@
-/* eslint-disable import/order */
 import { CommandInteraction } from "discord.js";
 
 import CommandCountModel from "../database/models/CommandCountModel";

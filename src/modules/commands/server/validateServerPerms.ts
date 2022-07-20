@@ -1,4 +1,4 @@
-import { GuildMember, MessageEmbed, TextBasedChannel } from "discord.js";
+import { GuildMember, EmbedBuilder, TextBasedChannel } from "discord.js";
 
 import { Heptagram } from "../../../interfaces/Heptagram";
 import { heptagramErrorHandler } from "../../../modules/heptagramErrorHandler";
@@ -17,41 +17,38 @@ export const validateServerPerms = async (
   channel: TextBasedChannel
 ): Promise<boolean> => {
   try {
-    const kickMembers = HeptagramBot.permissions.has("KICK_MEMBERS");
-    const banMembers = HeptagramBot.permissions.has("BAN_MEMBERS");
-    const manageNicknames = HeptagramBot.permissions.has("MANAGE_NICKNAMES");
-    const changeNickname = HeptagramBot.permissions.has("CHANGE_NICKNAME");
-    const viewAuditLog = HeptagramBot.permissions.has("VIEW_AUDIT_LOG");
-    const manageEvents = HeptagramBot.permissions.has("MANAGE_EVENTS");
-    const moderateMembers = HeptagramBot.permissions.has("MODERATE_MEMBERS");
-    const sendMessages = HeptagramBot.permissions.has("SEND_MESSAGES");
+    const kickMembers = HeptagramBot.permissions.has("KickMembers");
+    const banMembers = HeptagramBot.permissions.has("BanMembers");
+    const manageNicknames = HeptagramBot.permissions.has("ManageNicknames");
+    const changeNickname = HeptagramBot.permissions.has("ChangeNickname");
+    const viewAuditLog = HeptagramBot.permissions.has("ViewAuditLog");
+    const manageEvents = HeptagramBot.permissions.has("ManageEvents");
+    const moderateMembers = HeptagramBot.permissions.has("ModerateMembers");
+    const sendMessages = HeptagramBot.permissions.has("SendMessages");
     const sendMessagesInThreads = HeptagramBot.permissions.has(
-      "SEND_MESSAGES_IN_THREADS"
+      "SendMessagesInThreads"
     );
     const createPublicThreads = HeptagramBot.permissions.has(
-      "CREATE_PUBLIC_THREADS"
+      "CreatePublicThreads"
     );
     const createPrivateThreads = HeptagramBot.permissions.has(
-      "CREATE_PRIVATE_THREADS"
+      "CreatePrivateThreads"
     );
-    const manageMessages = HeptagramBot.permissions.has("MANAGE_MESSAGES");
-    const manageThreads = HeptagramBot.permissions.has("MANAGE_THREADS");
-    const embedLinks = HeptagramBot.permissions.has("EMBED_LINKS");
-    const readMessageHistory = HeptagramBot.permissions.has(
-      "READ_MESSAGE_HISTORY"
-    );
-    const addReactions = HeptagramBot.permissions.has("ADD_REACTIONS");
-    const useExternalEmojis = HeptagramBot.permissions.has(
-      "USE_EXTERNAL_EMOJIS"
-    );
+    const manageMessages = HeptagramBot.permissions.has("ManageMessages");
+    const manageThreads = HeptagramBot.permissions.has("ManageThreads");
+    const embedLinks = HeptagramBot.permissions.has("EmbedLinks");
+    const readMessageHistory =
+      HeptagramBot.permissions.has("ReadMessageHistory");
+    const addReactions = HeptagramBot.permissions.has("AddReactions");
+    const useExternalEmojis = HeptagramBot.permissions.has("UseExternalEmojis");
     const useExternalStickers = HeptagramBot.permissions.has(
-      "USE_EXTERNAL_STICKERS"
+      "UseExternalStickers"
     );
-    const muteMembers = HeptagramBot.permissions.has("MUTE_MEMBERS");
-    const deafenMembers = HeptagramBot.permissions.has("DEAFEN_MEMBERS");
-    const moveMembers = HeptagramBot.permissions.has("MOVE_MEMBERS");
+    const muteMembers = HeptagramBot.permissions.has("MuteMembers");
+    const deafenMembers = HeptagramBot.permissions.has("DeafenMembers");
+    const moveMembers = HeptagramBot.permissions.has("MoveMembers");
 
-    const permissionEmbed = new MessageEmbed();
+    const permissionEmbed = new EmbedBuilder();
     permissionEmbed.setTitle("Server Level Permissions");
     permissionEmbed.setDescription(
       "Here are the permissions that I have in this server."
